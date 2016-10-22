@@ -35,7 +35,7 @@ def parse_submission(request):
         except (KeyError, IndexError):
             raise InvalidBuildinfo("Could not determine GPG uid")
 
-    sha1 = hashlib.sha1().hexdigest()
+    sha1 = hashlib.sha1(raw_text_gpg_stripped.encode('utf-8')).hexdigest()
     try:
         submission = Buildinfo.objects.get(sha1=sha1).submissions.create(
             uid=uid,
