@@ -33,7 +33,7 @@ def parse_submission(request):
         try:
             uid = gpg_info['NO_PUBKEY'][0]
         except (KeyError, IndexError):
-            raise InvalidBuildinfo("Could not determine GPG uid")
+            raise InvalidSubmission("Could not determine GPG uid")
 
     sha1 = hashlib.sha1(raw_text_gpg_stripped.encode('utf-8')).hexdigest()
     try:
@@ -48,13 +48,13 @@ def parse_submission(request):
         pass
 
     if data.get('Format') != '0.1':
-        raise InvalidBuildinfo("Only Format: 0.1 is supported")
+        raise InvalidSubmission("Only Format: 0.1 is supported")
 
     def get_or_create(model, field):
         try:
             return model.objects.get_or_create(name=data[field])[0]
         except KeyError:
-            raise InvalidBuildinfo("Missing required field: {}".format(field))
+            raise InvalidSubmission("Missing required field: {}".format(field))
 
     buildinfo = Buildinfo.objects.create(
         sha1=sha1,
@@ -73,10 +73,10 @@ def parse_submission(request):
     try:
         binary_names = set(data['Binary'].split(' '))
     except KeyError:
-        raise InvalidBuildinfo("Missing 'Binary' field")
+        raise InvalidSubmission("Missing 'Binary' field")
 
     if not binary_names:
-        raise InvalidBuildinfo("Invalid 'Binary' field")
+        raise InvalidSubmission("Invalid 'Binary' field")
 
     binaries = {}
     for x in binary_names:
@@ -96,7 +96,7 @@ def parse_submission(request):
 
             # Check filename
             if re_filename.match(filename) is None:
-                raise InvalidBuildinfo("Invalid filename: {}".format(filename))
+                raise InvalidSubmission("Invalid filename: {}".format(filename))
 
             # Check size
             try:
@@ -104,7 +104,7 @@ def parse_submission(request):
                 if size < 0:
                     raise ValueError()
             except ValueError:
-                raise InvalidBuildinfo(
+                raise InvalidSubmission(
                     "Invalid size for {}: {}".format(filename, size),
                 )
 
@@ -114,7 +114,7 @@ def parse_submission(request):
 
             existing = checksums[filename]['size']
             if size != existing:
-                raise InvalidBuildinfo("Mismatched file size in "
+                raise InvalidSubmission("Mismatched file size in "
                     "Checksums-{}: {} != {}".format(x, existing, size))
 
     ## Create Binary instances ################################################
