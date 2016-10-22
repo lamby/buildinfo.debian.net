@@ -1,0 +1,17 @@
+[Unit]
+Description=bidb-gunicorn
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+User=www-data
+Group=www-data
+Restart=always
+
+ExecStart=/usr/share/python/bidb/bin/gunicorn --workers=2 --max-requests=250 --log-level=info --preload bidb.wsgi
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+PrivateTmp=true

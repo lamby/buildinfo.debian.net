@@ -1,0 +1,24 @@
+{% extends "base/base.html" %}
+
+{% block body_classes %}{{ block.super }} f_packages_source{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>
+    <span class="label label-primary">{{ source.name }}</span>
+    <small>(source package)</small>
+  </h1>
+</div>
+
+<h2>.buildinfo files</h2>
+
+<ul>
+  {% for x in source.buildinfos.all %}
+  <li>
+    <code><a href="{{ x.get_absolute_url }}">{{ x.get_filename }}.buildinfo</a></code>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock%}

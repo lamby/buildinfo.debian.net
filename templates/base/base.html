@@ -1,0 +1,43 @@
+{% extends "base/generic_base.html" %}
+
+{% block body %}
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url "static:landing" %}">
+        buildinfo.debian.net
+      </a>
+    </div>
+  </div>
+</nav>
+
+{% if messages %}
+{% for message in messages %}
+<div class="container alert alert-{% if message.tags == "error" %}danger {% else %}{{ message.tags }}{% endif %}">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+{% block container %}
+<div class="container">
+  {% block content %}{% endblock %}
+</div>
+{% endblock %}
+
+<footer>
+  <div class="container">
+    <hr>
+    <p class="text-muted text-center">
+      Copyright &copy; 2015&mdash;2016
+      <a href="https://chris-lamb.co.uk">Chris Lamb</a>.
+      Released under the terms of the
+      <a href="http://www.gnu.org/licenses/agpl-3.0.en.html">GNU Affero General Public License</a>.
+      <a href="https://github.com/lamby/buildinfo.debian.net">Source</a>.
+    </p>
+  </div>
+</footer>
+
+{% endblock %}

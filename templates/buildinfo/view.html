@@ -1,0 +1,151 @@
+{% extends "base/base.html" %}
+
+{% block body_classes %}{{ block.super }} f_buildinfos_view{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>
+    {{ buildinfo.get_filename }}.buildinfo
+    <small>
+      <a href="{% url "buildinfo:raw-text" buildinfo.sha1 buildinfo.get_filename %}">(view)</a>
+    </small>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <dl class="dl-horizontal">
+      <dt>Source</dt>
+      <dd>
+        <a href="{{ buildinfo.source.get_absolute_url }}">
+          <span class="label label-primary">{{ buildinfo.source.name }}</span>
+        </a>
+      </dd>
+
+      <dt>Version</dt>
+      <dd><code>{{ buildinfo.version }}</code></dd>
+
+      <dt>Architecture</dt>
+      <dd><code>{{ buildinfo.architecture.name }}</code></dd>
+
+      <br>
+
+      <dt>Build-Path</dt>
+      <dd>
+        {% if buildinfo.build_path %}
+        <code>{{ buildinfo.build_path }}</code>
+        {% else %}
+          &mdash;
+        {% endif %}
+      </dd>
+
+      <dt>Build-Architecture</dt>
+      <dd><code>{{ buildinfo.build_architecture.name }}</code></dd>
+
+      <br>
+
+      <dt>First submitted</dt>
+      <dd><abbr title="{{ buildinfo.created|timesince }} ago">{{ buildinfo.created }}</abbr></dd>
+
+      <dt>SHA1 of .buildinfo</dt>
+      <dd><code>{{ buildinfo.sha1 }}</code></dd>
+    </dl>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-6">
+    <h3>
+      Binaries
+    </h3>
+
+    {% for x in buildinfo.binaries.all %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <a href="{{ x.binary.get_absolute_url }}"><span class="label label-default">{{ x.binary.name }}</span></a>
+          (<code>{{ x.checksum.filename }}</code>)
+        </div>
+        {% if x.checksum %}
+        <div class="panel-body">
+          SHA1: <code>{{ x.checksum.checksum_sha1 }}</code>
+          <br>
+          Size: {{ x.checksum.size }} bytes
+        </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  <div class="col-xs-6">
+    <h3>
+      Other checksums
+    </h3>
+
+    {% for x in buildinfo.checksums.all %}
+    {% if not x.binary_id %}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <code>{{ x.filename }}</code>
+        </div>
+        <div class="panel-body">
+          SHA1: <code>{{ x.checksum_sha1 }}</code>
+          <br>
+          Size: {{ x.size }} bytes
+        </div>
+      </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="col-xs-6">
+    <h3>Submissions</h3>
+
+    {% for x in buildinfo.submissions.all %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <a href="{{ x.get_absolute_url }}"><code>{{ x.slug }}</code></a>
+      </div>
+      <div class="panel-body">
+        <dl class="dl-horizontal">
+          <dt>Node</dt>
+          <dd>
+            {% if x.node %}
+              <code>{{ x.node }}</code>
+            {% else %}
+              &mdash;
+            {% endif %}
+          </dd>
+          <dt>Signature</dt>
+          <dd>
+            {% if x.uid %}
+              <a href="https://keyserver.ubuntu.com/pks/lookup?op=index&search=0x{{ x.uid|urlencode }}"><code>0x{{ x.uid }}</code></a>
+            {% else %}
+              &mdash;
+            {% endif %}
+          </dd>
+        </dl>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<h3>Installed build-depends</h3>
+
+<ul class="list-unstyled">
+  {% for x in buildinfo.installed_build_depends.all %}
+  <li>
+    <a href="{{ x.binary.get_absolute_url }}">
+      <span class="label label-default">{{ x.binary.name }}</span>
+    </a>
+    (= <code>{{ x.version }}</code></dd>)
+  </li>
+  {% endfor %}
+</ul>
+
+
+{% endblock%}

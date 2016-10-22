@@ -1,0 +1,1 @@
+from bidb.settings import *

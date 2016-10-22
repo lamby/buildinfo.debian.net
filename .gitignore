@@ -1,0 +1,8 @@
+*.deb
+*.pyc
+.coverage
+/bidb/settings/custom.py
+/static/
+/storage/
+/coverage.xml
+/pep8.txt
