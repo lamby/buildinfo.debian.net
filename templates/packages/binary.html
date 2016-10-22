@@ -16,7 +16,7 @@
 <ul>
   {% for x in binary.build_depends.all %}
   <li>
-    <a href="{{ x.bidb.get_absolute_url }}"><code>{{ x.bidb.get_filename }}.buildinfo</code></a>
+    <a href="{{ x.buildinfo.get_absolute_url }}"><code>{{ x.buildinfo.get_filename }}.buildinfo</code></a>
   </li>
   {% empty %}
   <li>
@@ -30,9 +30,9 @@
 <ul>
   {% for x in binary.generated_binaries.all %}
   <li>
-    <a href="{{ x.bidb.source.get_absolute_url }}"><span class="label label-primary">{{ x.bidb.source.name }}</span></a>
+    <a href="{{ x.buildinfo.source.get_absolute_url }}"><span class="label label-primary">{{ x.buildinfo.source.name }}</span></a>
 
-    <a href="{{ x.bidb.get_absolute_url }}">{{ x.bidb.get_filename }}.buildinfo</a>
+    <a href="{{ x.buildinfo.get_absolute_url }}">{{ x.buildinfo.get_filename }}.buildinfo</a>
 
   </li>
   {% empty %}
