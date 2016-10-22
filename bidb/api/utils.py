@@ -48,7 +48,7 @@ def parse_submission(request):
         pass
 
     if data.get('Format') != '0.1':
-        raise InvalidBuildinfo("Only Format: 1.0 is supported")
+        raise InvalidBuildinfo("Only Format: 0.1 is supported")
 
     def get_or_create(model, field):
         try:
