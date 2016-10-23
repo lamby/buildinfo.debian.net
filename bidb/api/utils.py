@@ -36,15 +36,17 @@ def parse_submission(request):
         except (KeyError, IndexError):
             raise InvalidSubmission("Could not determine GPG uid")
 
-    sha1 = hashlib.sha1(raw_text_gpg_stripped.encode('utf-8')).hexdigest()
-    try:
-        submission = Buildinfo.objects.get(sha1=sha1).submissions.create(
+    def create_submission(buildinfo):
+        return buildinfo.submissions.create(
             uid=uid,
             node=request.GET.get('node', ''),
             raw_text=raw_text,
         )
 
-        return submission, False
+    # If this .buildinfo already exists, attach a new Submission instance
+    sha1 = hashlib.sha1(raw_text_gpg_stripped.encode('utf-8')).hexdigest()
+    try:
+        return create_submission(Buildinfo.objects.get(sha1=sha1)), False
     except Buildinfo.DoesNotExist:
         pass
 
@@ -140,8 +142,4 @@ def parse_submission(request):
             version=m.group('version'),
         )
 
-    return buildinfo.submissions.create(
-        uid=uid,
-        node=request.GET.get('node', ''),
-        raw_text=raw_text,
-    ), True
+    return create_submission(buildinfo), True
