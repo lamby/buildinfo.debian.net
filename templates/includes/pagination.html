@@ -1,0 +1,21 @@
+{% if page.has_previous or page.has_next %}
+<ul class="pagination pagination-sm">
+  {% if page.has_previous %}
+    <li><a href="?{{ request.GET|paginator:page.previous_page_number }}">&laquo;</a></li>
+  {% else %}
+    <li class="disabled"><a href="#">&laquo;</a></li>
+  {% endif %}
+
+  {% for number in page.paginator.page_range %}
+  <li class="{% if page.number == number %}active{% endif %}">
+    <a href="?{{ request.GET|paginator:number }}">{{ number }}</a>
+  </li>
+  {% endfor %}
+
+  {% if page.has_next %}
+    <li><a href="?{{ request.GET|paginator:page.next_page_number }}">&raquo;</a></li>
+  {% else %}
+    <li class="disabled"><a href="#">&raquo;</a></li>
+  {% endif %}
+</ul>
+{% endif %}

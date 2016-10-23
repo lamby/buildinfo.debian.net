@@ -69,6 +69,8 @@ TEMPLATES = [
             'builtins': [
                 'django.contrib.humanize.templatetags.humanize',
                 'django.contrib.staticfiles.templatetags.staticfiles',
+
+                'bidb.utils.templatetags.pagination',
             ],
         },
     },
