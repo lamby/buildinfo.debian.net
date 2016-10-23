@@ -3,7 +3,7 @@ import hashlib
 
 from debian import deb822
 
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 
 from bidb.packages.models import Source, Architecture, Binary
 from bidb.buildinfo.models import Buildinfo
@@ -19,6 +19,7 @@ re_installed_build_depends = re.compile(
 class InvalidSubmission(Exception):
     pass
 
+@transaction.atomic
 def parse_submission(request):
     raw_text = request.read()
 
