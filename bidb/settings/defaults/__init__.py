@@ -67,6 +67,7 @@ TEMPLATES = [
                 'bidb.utils.context_processors.settings_context',
             ],
             'builtins': [
+                'django.contrib.humanize.templatetags.humanize',
                 'django.contrib.staticfiles.templatetags.staticfiles',
             ],
         },
