@@ -3,7 +3,7 @@ import hashlib
 
 from debian import deb822
 
-from django.db import IntegrityError, transaction
+from django.db import transaction
 
 from bidb.packages.models import Source, Architecture, Binary
 from bidb.buildinfo.models import Buildinfo
@@ -26,7 +26,7 @@ def parse_submission(request):
     data = deb822.Deb822(raw_text)
     raw_text_gpg_stripped = data.dump()
 
-    # Parse GPG info
+    ## Parse GPG info #########################################################
     uid = ''
     data.raw_text = raw_text
     gpg_info = data.get_gpg_info()
@@ -36,6 +36,8 @@ def parse_submission(request):
         except (KeyError, IndexError):
             raise InvalidSubmission("Could not determine GPG uid")
 
+    ## Check whether .buildinfo already exists ################################
+
     def create_submission(buildinfo):
         return buildinfo.submissions.create(
             uid=uid,
@@ -43,21 +45,23 @@ def parse_submission(request):
             raw_text=raw_text,
         )
 
-    # If this .buildinfo already exists, attach a new Submission instance
     sha1 = hashlib.sha1(raw_text_gpg_stripped.encode('utf-8')).hexdigest()
     try:
+        # Already exists; just attach a new Submission instance
         return create_submission(Buildinfo.objects.get(sha1=sha1)), False
     except Buildinfo.DoesNotExist:
         pass
 
-    if data.get('Format') != '0.1':
-        raise InvalidSubmission("Only Format: 0.1 is supported")
+    ## Parse new .buildinfo ###################################################
 
     def get_or_create(model, field):
         try:
             return model.objects.get_or_create(name=data[field])[0]
         except KeyError:
             raise InvalidSubmission("Missing required field: {}".format(field))
+
+    if data.get('Format') != '0.1':
+        raise InvalidSubmission("Only Format: 0.1 is supported")
 
     buildinfo = Buildinfo.objects.create(
         sha1=sha1,
