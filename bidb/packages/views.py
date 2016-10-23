@@ -22,6 +22,12 @@ def source(request, name):
 def binary(request, name):
     binary = get_object_or_404(Binary, name=name)
 
+    build_depends = binary.build_depends.select_related(
+        'buildinfo__source',
+        'buildinfo__architecture',
+    ).order_by('buildinfo__source__name')
+
     return render(request, 'packages/binary.html', {
         'binary': binary,
+        'build_depends': build_depends,
     })
