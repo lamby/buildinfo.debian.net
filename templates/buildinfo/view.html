@@ -70,7 +70,7 @@
         <div class="panel-body">
           SHA1: <code>{{ x.checksum.checksum_sha1 }}</code>
           <br>
-          Size: {{ x.checksum.size }} bytes
+          Size: {{ x.checksum.size|intcomma }} bytes
         </div>
         {% endif %}
       </div>
@@ -90,7 +90,7 @@
         <div class="panel-body">
           SHA1: <code>{{ x.checksum_sha1 }}</code>
           <br>
-          Size: {{ x.size }} bytes
+          Size: {{ x.size|intcomma }} bytes
         </div>
       </div>
     {% endif %}
