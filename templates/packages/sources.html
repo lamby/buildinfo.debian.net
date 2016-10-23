@@ -1,0 +1,24 @@
+{% extends "base/base.html" %}
+
+{% block body_classes %}{{ block.super }} f_packages_sources{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <h1>
+    Source packages
+    <small>({{ page.paginator.count|intcomma }})</small>
+  </h1>
+</div>
+
+<ul>
+  {% for x in page.object_list %}
+  <li>
+    <a href="{{ x.get_absolute_url }}">{{ x.name }}</a>
+  </li>
+  {% endfor %}
+</ul>
+
+{% include "includes/pagination.html" %}
+
+{% endblock%}

@@ -1,6 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 
+from bidb.utils.paginator import AutoPaginator
+
 from .models import Binary, Source
+
+
+def sources(request):
+    page = AutoPaginator(request, Source.objects.all(), 250).current_page()
+
+    return render(request, 'packages/sources.html', {
+        'page': page,
+    })
 
 def source(request, name):
     source = get_object_or_404(Source, name=name)

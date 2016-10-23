@@ -4,8 +4,11 @@ from . import views
 
 
 urlpatterns = (
-    url(r'^source/(?P<name>[^/]+)$', views.source,
+    url(r'^sources$', views.sources,
+        name='sources'),
+
+    url(r'^sources/(?P<name>[^/]+)$', views.source,
         name='source'),
-    url(r'^binary/(?P<name>[^/]+)$', views.binary,
+    url(r'^binares(?P<name>[^/]+)$', views.binary,
         name='binary'),
 )
