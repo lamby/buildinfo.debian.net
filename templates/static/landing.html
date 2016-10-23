@@ -22,12 +22,13 @@
 
   <div class="row">
     <div class="col-xs-12">
-      <h4>Latest uploads:</h4>
+      <h4>Latest submissions:</h4>
 
       <ul>
         {% for x in latest %}
         <li>
-          <a href="{{ x.get_absolute_url }}">{{ x.get_filename }}.buildinfo</a>
+          <a href="{{ x.buildinfo.get_absolute_url }}">{{ x.buildinfo.get_filename }}.buildinfo</a>
+          {% if x.node %}from <code>{{ x.node }}</code>{% endif %}
         </li>
         {% endfor %}
       </ul>

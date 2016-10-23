@@ -1,9 +1,9 @@
 from django.shortcuts import render
 
-from bidb.buildinfo.models import Buildinfo
+from bidb.buildinfo.buildinfo_submissions.models import Submission
 
 def landing(request):
-    latest = Buildinfo.objects.all()[:10]
+    latest = Submission.objects.all()[:20]
 
     return render(request, 'static/landing.html', {
         'latest': latest,
