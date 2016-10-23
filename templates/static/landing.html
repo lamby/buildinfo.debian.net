@@ -47,7 +47,7 @@
       </h4>
       <p>
         <code>
-          $ curl -X PUT --data-binary @- {{ settings.SITE_URL }}{% url "api:submit" %} &lt; <em>my.buildinfo</em>
+          $ curl-X PUT --data-binary @- --max-time 30 {{ settings.SITE_URL }}{% url "api:submit" %} &lt; <em>my.buildinfo</em>
         </code>
       </p>
 
@@ -58,7 +58,7 @@
       </h4>
       <p>
         <code>
-          $ gpg --output=- --clearsign <em>my.buildinfo</em> | curl -X PUT --data-binary @- {{ settings.SITE_URL }}{% url "api:submit" %}
+          $ gpg --output=- --clearsign <em>my.buildinfo</em> | curl -X PUT --max-time 30 --data-binary @- {{ settings.SITE_URL }}{% url "api:submit" %}
         </code>
       </p>
 
@@ -69,7 +69,7 @@
       </h4>
       <p>
         <code>
-          $ gpg --output=- --clearsign <em>my.buildinfo</em> | curl -X PUT --data-binary @- {{ settings.SITE_URL }}{% url "api:submit" %}?node=$(hostname -a)
+          $ gpg --output=- --clearsign <em>my.buildinfo</em> | curl -X PUT --max-time 30 --data-binary @- {{ settings.SITE_URL }}{% url "api:submit" %}?node=$(hostname -a)
         </code>
       </p>
     </div>
