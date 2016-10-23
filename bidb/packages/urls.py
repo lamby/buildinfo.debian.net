@@ -9,6 +9,6 @@ urlpatterns = (
 
     url(r'^sources/(?P<name>[^/]+)$', views.source,
         name='source'),
-    url(r'^binares/(?P<name>[^/]+)$', views.binary,
+    url(r'^binaries/(?P<name>[^/]+)$', views.binary,
         name='binary'),
 )
