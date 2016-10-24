@@ -12,6 +12,14 @@ def sources(request):
         'page': page,
     })
 
+def binaries(request):
+    page = AutoPaginator(request, Binary.objects.all(), 250).current_page()
+
+    return render(request, 'packages/binaries.html', {
+        'page': page,
+    })
+
+
 def source(request, name):
     source = get_object_or_404(Source, name=name)
 
