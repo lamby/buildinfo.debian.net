@@ -11,12 +11,12 @@
   </h1>
 </div>
 
-<h2>.buildinfo files</h2>
+<h2>.buildinfo files:</h2>
 
 <ul>
   {% for x in source.buildinfos.all %}
   <li>
-    <code><a href="{{ x.get_absolute_url }}">{{ x.get_filename }}.buildinfo</a></code>
+    <a href="{{ x.get_absolute_url }}"><code>{{ x.get_filename }}.buildinfo</code></a>
   </li>
   {% endfor %}
 </ul>
