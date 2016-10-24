@@ -14,7 +14,7 @@
 <ul>
   {% for x in page.object_list %}
   <li>
-    <a href="{{ x.get_absolute_url }}">{{ x.name }}</a>
+    <a href="{{ x.get_absolute_url }}"><span class="label label-primary">{{ x.name }}</span></a>
   </li>
   {% endfor %}
 </ul>
