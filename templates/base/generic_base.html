@@ -16,5 +16,10 @@
 </head>
 <body class="{% block body_classes %}{% endblock %}">
   {% block body %}{% endblock %}
+
+  {% block js %}
+  <script src="{% static "js/jquery.js" %}"></script>
+  <script src="{% static "js/bootstrap.js" %}"></script>
+  {% endblock %}
 </body>
 </html>
