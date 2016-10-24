@@ -8,7 +8,6 @@
 
 <div class="container">
   <br>
-  <br>
 
   <div class="jumbotron">
     <h1>
@@ -16,9 +15,35 @@
     </h1>
 
     <h2>
-      Proof of concept <code>.buildinfo</code> server
+      A proof-of-concept <code>.buildinfo</code> server
     </h2>
   </div>
+
+  <div class="well">
+    <h2>
+      What is this site?
+    </h2>
+
+    <p>
+      In order to build packages reproducibly, you not only need identical
+      sources but also some external definition of the environment used for a
+      particular build. This definition includes the inputs and the outputs
+      and&mdash;in the Debian case&mdash;are available in a
+      <code>$package_$architecture_$version.buildinfo</code> file.
+    </p>
+
+    <p>
+      It is not currently clear how these files could or should be handled in
+      practice, hence the creation of this server to investigate.
+    </p>
+  </div>
+
+  <div class="alert alert-warning">
+    <strong>WARNING:</strong>
+    The layout, data and schema of this site are highly unstable; please don't
+    rely on anything just yet.
+  </div>
+
 
   <div class="row">
     <div class="col-xs-12">
