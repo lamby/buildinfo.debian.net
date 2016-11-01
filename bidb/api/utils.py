@@ -31,9 +31,13 @@ def parse_submission(request):
     data.raw_text = raw_text
     gpg_info = data.get_gpg_info()
     if 'NODATA' not in gpg_info:
-        try:
-            uid = gpg_info['NO_PUBKEY'][0]
-        except (KeyError, IndexError):
+        for x in ('NO_PUBKEY',):
+            try:
+                uid = gpg_info[x][0]
+                break
+            except (KeyError, IndexError):
+                pass
+        else:
             raise InvalidSubmission("Could not determine GPG uid")
 
     ## Check whether .buildinfo already exists ################################
