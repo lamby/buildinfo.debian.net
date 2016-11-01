@@ -9,7 +9,7 @@ from bidb.packages.models import Source, Architecture, Binary
 from bidb.buildinfo.models import Buildinfo
 
 re_filename = re.compile(
-    r'^(?P<name>[^_]+)_(?P<version>[^_]+)_(?P<architecture>[^\.]+)\.deb$',
+    r'^(?P<name>[^_]+)_(?P<version>[^_]+)_(?P<architecture>[^\.]+)\.u?deb$',
 )
 re_installed_build_depends = re.compile(
     r'^(?P<package>[^ ]+) \(= (?P<version>.+)\)'
