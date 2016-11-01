@@ -73,17 +73,6 @@
       </h4>
       <p>
         <code>
-          $ curl-X PUT --data-binary @- --max-time 30 {{ settings.SITE_URL }}{% url "api:submit" %} &lt; <em>my.buildinfo</em>
-        </code>
-      </p>
-
-      <br>
-
-      <h4>
-        Upload a GPG-signed <code>.buildinfo</code>:
-      </h4>
-      <p>
-        <code>
           $ gpg --output=- --clearsign <em>my.buildinfo</em> | curl -X PUT --max-time 30 --data-binary @- {{ settings.SITE_URL }}{% url "api:submit" %}
         </code>
       </p>
@@ -91,7 +80,7 @@
       <br>
 
       <h4>
-        Upload a GPG-signed <code>.buildinfo</code> with optional <code>?node=X</code> metadata:
+        Submit a <code>.buildinfo</code> with optional <code>?node=X</code> metadata:
       </h4>
       <p>
         <code>

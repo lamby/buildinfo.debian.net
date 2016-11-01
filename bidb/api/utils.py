@@ -27,18 +27,20 @@ def parse_submission(request):
     raw_text_gpg_stripped = data.dump()
 
     ## Parse GPG info #########################################################
-    uid = ''
+
+    uid = None
     data.raw_text = raw_text
     gpg_info = data.get_gpg_info()
-    if 'NODATA' not in gpg_info:
-        for x in ('VALIDSIG', 'NO_PUBKEY'):
-            try:
-                uid = gpg_info[x][0]
-                break
-            except (KeyError, IndexError):
-                pass
-        else:
-            raise InvalidSubmission("Could not determine GPG uid")
+
+    for x in ('VALIDSIG', 'NO_PUBKEY'):
+        try:
+            uid = gpg_info[x][0]
+            break
+        except (KeyError, IndexError):
+            pass
+
+    if uid is None:
+        raise InvalidSubmission("Could not determine GPG uid")
 
     ## Check whether .buildinfo already exists ################################
 
