@@ -31,7 +31,7 @@ def parse_submission(request):
     data.raw_text = raw_text
     gpg_info = data.get_gpg_info()
     if 'NODATA' not in gpg_info:
-        for x in ('NO_PUBKEY',):
+        for x in ('VALIDSIG', 'NO_PUBKEY'):
             try:
                 uid = gpg_info[x][0]
                 break
