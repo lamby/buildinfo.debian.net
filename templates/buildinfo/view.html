@@ -111,6 +111,10 @@
       </div>
       <div class="panel-body">
         <dl class="dl-horizontal">
+          <dt>Submitted</dt>
+          <dd>
+            <abbr title="{{ x.created|timesince }} ago">{{ x.created }}</abbr>
+          </dd>
           <dt>Node</dt>
           <dd>
             {% if x.node %}
