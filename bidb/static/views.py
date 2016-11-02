@@ -3,7 +3,7 @@ from django.shortcuts import render
 from bidb.buildinfo.buildinfo_submissions.models import Submission
 
 def landing(request):
-    latest = Submission.objects.all()[:20]
+    latest = Submission.objects.order_by('-created')[:20]
     num_submissions = Submission.objects.count()
 
     return render(request, 'static/landing.html', {
