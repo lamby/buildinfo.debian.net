@@ -130,7 +130,7 @@ def parse_submission(request):
                 raise InvalidSubmission("Mismatched file size in "
                     "Checksums-{}: {} != {}".format(x, existing, size))
 
-    ## Create Binary instances ################################################
+    ## Create Checksum instances ##############################################
 
     for k, v in sorted(checksums.items()):
         try:
