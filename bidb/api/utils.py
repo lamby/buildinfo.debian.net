@@ -8,7 +8,7 @@ from django.db import transaction
 from bidb.packages.models import Source, Architecture, Binary
 from bidb.buildinfo.models import Buildinfo
 
-re_filename = re.compile(
+re_binary = re.compile(
     r'^(?P<name>[^_]+)_(?P<version>[^_]+)_(?P<architecture>[^\.]+)\.u?deb$',
 )
 re_installed_build_depends = re.compile(
@@ -107,10 +107,6 @@ def parse_submission(request):
         for y in data['Checksums-%s' % x].strip().splitlines():
             checksum, size, filename = y.strip().split()
 
-            # Check filename
-            if re_filename.match(filename) is None:
-                raise InvalidSubmission("Invalid filename: {}".format(filename))
-
             # Check size
             try:
                 size = int(size)
@@ -123,6 +119,7 @@ def parse_submission(request):
 
             checksums.setdefault(filename, {
                 'size': size,
+                'binary': None,
             })['checksum_{}'.format(x.lower())] = checksum
 
             existing = checksums[filename]['size']
@@ -133,10 +130,10 @@ def parse_submission(request):
     ## Create Checksum instances ##############################################
 
     for k, v in sorted(checksums.items()):
-        try:
-            v['binary'] = binaries[re_filename.match(k).group('name')]
-        except KeyError:
-            v['binary'] = None
+        # Match with Binary instances if possible
+        m = re_binary.match(k)
+        if m is not None:
+            v['binary'] = binaries.get(m.group('name'))
 
         buildinfo.checksums.create(filename=k, **v)
 
