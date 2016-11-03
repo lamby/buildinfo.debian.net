@@ -5,6 +5,7 @@ from debian import deb822
 
 from django.db import transaction
 
+from bidb.keys.models import Key
 from bidb.packages.models import Source, Architecture, Binary
 from bidb.buildinfo.models import Buildinfo
 
@@ -46,7 +47,7 @@ def parse_submission(request):
 
     def create_submission(buildinfo):
         return buildinfo.submissions.create(
-            uid=uid,
+            key=Key.objects.get_or_create(uid=uid)[0],
             node=request.GET.get('node', ''),
             raw_text=raw_text,
         )
