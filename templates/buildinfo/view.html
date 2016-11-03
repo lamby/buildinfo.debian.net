@@ -125,11 +125,7 @@
           </dd>
           <dt>Signature</dt>
           <dd>
-            {% if x.uid %}
-              <a href="https://keyserver.ubuntu.com/pks/lookup?op=index&search=0x{{ x.uid|urlencode }}"><code>0x{{ x.uid }}</code></a>
-            {% else %}
-              &mdash;
-            {% endif %}
+            <a href="https://keyserver.ubuntu.com/pks/lookup?op=index&search=0x{{ x.uid|urlencode }}"><code>0x{{ x.uid }}</code></a>
           </dd>
         </dl>
       </div>
