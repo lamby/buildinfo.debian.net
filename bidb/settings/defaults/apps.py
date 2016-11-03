@@ -11,6 +11,7 @@ INSTALLED_APPS = (
     'rest_framework',
 
     'bidb.api',
+    'bidb.keys',
     'bidb.packages',
     'bidb.buildinfo',
     'bidb.buildinfo.buildinfo_submissions',
