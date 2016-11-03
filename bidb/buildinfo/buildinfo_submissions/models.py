@@ -19,9 +19,8 @@ class Submission(models.Model):
         max_length=8,
     )
 
-    key = models.ForeignKey('keys.Key', null=True, related_name='submissions')
+    key = models.ForeignKey('keys.Key', related_name='submissions')
 
-    uid = models.CharField(max_length=512)
     node = models.CharField(max_length=512)
 
     raw_text = models.TextField()
