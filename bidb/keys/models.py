@@ -1,6 +1,6 @@
 import datetime
 
-from django.db import models
+from django.db import models, transaction
 
 
 class Key(models.Model):
@@ -20,3 +20,13 @@ class Key(models.Model):
             self.uid,
             self.name,
         )
+
+    def save(self, *args, **kwargs):
+        created = not self.pk
+
+        super(Key, self).save(*args, **kwargs)
+
+        if created:
+            from .tasks import update_or_create_key
+
+            transaction.on_commit(lambda: update_or_create_key.delay(self.pk))
