@@ -115,7 +115,7 @@
           <dd>
             <abbr title="{{ x.created|timesince }} ago">{{ x.created }}</abbr>
           </dd>
-          <dt>Signature</dt>
+          <dt>Signed by</dt>
           <dd>
             <a href="https://keyserver.ubuntu.com/pks/lookup?op=index&search=0x{{ x.key.uid|urlencode }}"><code>0x{{ x.key.uid }}</code></a>
             {% if x.key.name %}
