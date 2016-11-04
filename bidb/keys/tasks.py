@@ -13,7 +13,7 @@ def update_or_create_key(uid):
             'gpg',
             '--homedir', homedir,
             '--keyserver', 'http://p80.pool.sks-keyservers.net/',
-            '--recv-keys', uid
+            '--recv-keys', uid,
         ))
 
         data = subprocess.check_output((
