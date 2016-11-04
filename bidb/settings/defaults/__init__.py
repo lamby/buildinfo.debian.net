@@ -98,18 +98,6 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 BROKER_URL = 'redis://localhost:6379/0'
 
 CELERYBEAT_SCHEDULE = {
-    'cleanup': {
-        'task': 'bidb.container.tasks.cleanup',
-        'schedule': crontab(minute=30),
-    },
-    'retention-policy': {
-        'task': 'bidb.compare.retention_policy.tasks.purge',
-        'schedule': crontab(minute=0),
-    },
-    'update-container': {
-        'task': 'bidb.container.tasks.update_container',
-        'schedule': crontab(hour=0, minute=0),
-    },
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
