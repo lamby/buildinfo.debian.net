@@ -14,7 +14,7 @@ def update_or_create_key(uid):
             check_output2((
                 'gpg',
                 '--homedir', homedir,
-                '--keyserver', 'http://p80.pool.sks-keyservers.net/',
+                '--keyserver', 'pgpkeys.mit.edu',
                 '--recv-keys', uid,
             ))
         except subprocess.CalledProcessError as exc:
