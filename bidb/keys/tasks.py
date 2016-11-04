@@ -2,6 +2,7 @@ import celery
 import subprocess
 
 from bidb.utils.tempfile import TemporaryDirectory
+from bidb.utils.subprocess import check_output2
 
 from .models import Key
 
@@ -9,14 +10,14 @@ from .models import Key
 @celery.task(soft_time_limit=60)
 def update_or_create_key(uid):
     with TemporaryDirectory() as homedir:
-        subprocess.check_call((
+        check_output2((
             'gpg',
             '--homedir', homedir,
             '--keyserver', 'http://p80.pool.sks-keyservers.net/',
             '--recv-keys', uid,
         ))
 
-        data = subprocess.check_output((
+        data = check_output2((
             'gpg',
             '--homedir', homedir,
             '--with-colons',
