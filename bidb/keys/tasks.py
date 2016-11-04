@@ -42,6 +42,6 @@ def update_or_create_key(uid):
     })
 
 @celery.task()
-def refresh_all(uid):
+def refresh_all():
     for x in Key.objects.all():
         update_or_create_key.delay(x.uid)
