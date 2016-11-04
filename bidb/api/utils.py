@@ -48,7 +48,6 @@ def parse_submission(request):
     def create_submission(buildinfo):
         return buildinfo.submissions.create(
             key=Key.objects.get_or_create(uid=uid)[0],
-            node=request.GET.get('node', ''),
             raw_text=raw_text,
         )
 

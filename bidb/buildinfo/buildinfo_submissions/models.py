@@ -21,8 +21,6 @@ class Submission(models.Model):
 
     key = models.ForeignKey('keys.Key', related_name='submissions')
 
-    node = models.CharField(max_length=512)
-
     raw_text = models.TextField()
 
     created = models.DateTimeField(default=datetime.datetime.utcnow)
