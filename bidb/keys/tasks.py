@@ -10,12 +10,16 @@ from .models import Key
 @celery.task(soft_time_limit=60)
 def update_or_create_key(uid):
     with TemporaryDirectory() as homedir:
-        check_output2((
-            'gpg',
-            '--homedir', homedir,
-            '--keyserver', 'http://p80.pool.sks-keyservers.net/',
-            '--recv-keys', uid,
-        ))
+        try:
+            check_output2((
+                'gpg',
+                '--homedir', homedir,
+                '--keyserver', 'http://p80.pool.sks-keyservers.net/',
+                '--recv-keys', uid,
+            ))
+        except subprocess.CalledProcessError as exc:
+            print "E: {}: {}".format(exc, exc.output)
+            return None, False
 
         data = check_output2((
             'gpg',
