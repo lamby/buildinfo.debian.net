@@ -8,7 +8,6 @@ INSTALLED_APPS = (
     'djcelery',
     'django_keyerror',
     'template_tests',
-    'rest_framework',
 
     'bidb.api',
     'bidb.keys',
