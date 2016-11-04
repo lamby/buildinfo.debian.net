@@ -115,14 +115,6 @@
           <dd>
             <abbr title="{{ x.created|timesince }} ago">{{ x.created }}</abbr>
           </dd>
-          <dt>Node</dt>
-          <dd>
-            {% if x.node %}
-              <code>{{ x.node }}</code>
-            {% else %}
-              &mdash;
-            {% endif %}
-          </dd>
           <dt>Signature</dt>
           <dd>
             <a href="https://keyserver.ubuntu.com/pks/lookup?op=index&search=0x{{ x.key.uid|urlencode }}"><code>0x{{ x.key.uid }}</code></a>
