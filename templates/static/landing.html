@@ -69,25 +69,9 @@
     <div class="col-xs-12">
       <h3>Quick-start</h3>
 
-      <br>
-
-      <h4>
-        Submit a <code>.buildinfo</code>:
-      </h4>
       <p>
         <code>
           $ gpg --output=- --clearsign <em>my.buildinfo</em> | curl -X PUT --max-time 30 --data-binary @- {{ settings.SITE_URL }}{% url "api:submit" %}
-        </code>
-      </p>
-
-      <br>
-
-      <h4>
-        Submit a <code>.buildinfo</code> with optional <code>?node=X</code> metadata:
-      </h4>
-      <p>
-        <code>
-          $ gpg --output=- --clearsign <em>my.buildinfo</em> | curl -X PUT --max-time 30 --data-binary @- {{ settings.SITE_URL }}{% url "api:submit" %}?node=$(hostname -a)
         </code>
       </p>
     </div>
