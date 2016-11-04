@@ -98,6 +98,10 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 BROKER_URL = 'redis://localhost:6379/0'
 
 CELERYBEAT_SCHEDULE = {
+    'keys_refresh_all': {
+        'task': 'bidb.keys.tasks.refresh_all',
+        'schedule': crontab(hour=0, minute=0),
+    },
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
