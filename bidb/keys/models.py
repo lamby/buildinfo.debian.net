@@ -29,4 +29,4 @@ class Key(models.Model):
         if created:
             from .tasks import update_or_create_key
 
-            transaction.on_commit(lambda: update_or_create_key.delay(self.pk))
+            transaction.on_commit(lambda: update_or_create_key.delay(self.uid))
