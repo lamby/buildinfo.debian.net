@@ -40,7 +40,12 @@ def binary(request, name):
         'buildinfo__architecture',
     ).order_by('buildinfo__source__name')
 
+    versions = binary.generated_binaries.values_list(
+        'buildinfo__version', flat=True,
+    ).order_by('buildinfo__version').distinct()
+
     return render(request, 'packages/binary.html', {
         'binary': binary,
+        'versions': versions,
         'build_depends': build_depends,
     })

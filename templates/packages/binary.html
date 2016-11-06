@@ -11,6 +11,16 @@
   </h1>
 </div>
 
+<h2>Versions seen</h2>
+
+<ul class="list-horizontal">
+  {% for x in versions %}
+  <li>
+    <code>{{ x }}</code>
+  </li>
+  {% endfor %}
+</ul>
+
 <h2>Used as Build-Depends for:</h2>
 
 <ul>
