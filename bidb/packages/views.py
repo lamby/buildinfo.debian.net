@@ -23,8 +23,13 @@ def binaries(request):
 def source(request, name):
     source = get_object_or_404(Source, name=name)
 
+    binaries = Binary.objects.filter(
+        generated_binaries__buildinfo__source=source,
+    ).distinct()
+
     return render(request, 'packages/source.html', {
         'source': source,
+        'binaries': binaries,
     })
 
 def binary(request, name):

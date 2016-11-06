@@ -11,6 +11,16 @@
   </h1>
 </div>
 
+<h2>Binaries</h2>
+
+<ul>
+  {% for x in binaries %}
+  <li>
+    <a href="{{ x.get_absolute_url }}"><span class="label label-default">{{ x.name }}</span></a>
+  </li>
+  {% endfor %}
+</ul>
+
 <h2>.buildinfo files:</h2>
 
 <ul>
