@@ -27,9 +27,13 @@ def source(request, name):
         generated_binaries__buildinfo__source=source,
     ).distinct()
 
+    versions = source.buildinfos.values_list('version', flat=True) \
+        .order_by('version').distinct()
+
     return render(request, 'packages/source.html', {
         'source': source,
         'binaries': binaries,
+        'versions': versions,
     })
 
 def binary(request, name):
