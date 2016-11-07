@@ -6,6 +6,10 @@ footer {
   padding-top: 30px;
 }
 
+footer img {
+  margin-left: 10px;
+}
+
 .panel-body dl {
   margin-bottom: 0;
 }
