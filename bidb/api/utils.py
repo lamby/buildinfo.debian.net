@@ -3,7 +3,7 @@ import hashlib
 
 from debian import deb822
 
-from django.db import transaction
+from django.db import transaction, IntegrityError
 
 from bidb.keys.models import Key
 from bidb.packages.models import Source, Architecture, Binary
@@ -149,9 +149,13 @@ def parse_submission(request):
 
         binary = Binary.objects.get_or_create(name=m.group('package'))[0]
 
-        buildinfo.installed_build_depends.get_or_create(
-            binary=binary,
-            version=m.group('version'),
-        )
+        try:
+            buildinfo.installed_build_depends.create(
+                binary=binary,
+                version=m.group('version'),
+            )
+        except IntegrityError:
+            raise InvalidSubmission("Duplicate entry in "
+                "Installed-Build-Depends: {}".format(binary.name))
 
     return create_submission(buildinfo), True
