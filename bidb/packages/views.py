@@ -39,11 +39,6 @@ def source(request, name):
 def binary(request, name):
     binary = get_object_or_404(Binary, name=name)
 
-    build_depends = binary.build_depends.select_related(
-        'buildinfo__source',
-        'buildinfo__architecture',
-    ).order_by('buildinfo__source__name')
-
     versions = binary.generated_binaries.values_list(
         'buildinfo__version', flat=True,
     ).order_by('buildinfo__version').distinct()
@@ -51,5 +46,4 @@ def binary(request, name):
     return render(request, 'packages/binary.html', {
         'binary': binary,
         'versions': versions,
-        'build_depends': build_depends,
     })

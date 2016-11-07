@@ -40,18 +40,4 @@
   {% endfor %}
 </ul>
 
-<h2>Used as Build-Depends for:</h2>
-
-<ul>
-  {% for x in build_depends %}
-  <li>
-    <a href="{{ x.buildinfo.get_absolute_url }}"><code>{{ x.buildinfo.get_filename }}.buildinfo</code></a>
-  </li>
-  {% empty %}
-  <li>
-    (none)
-  </li>
-  {% endfor %}
-</ul>
-
 {% endblock%}
