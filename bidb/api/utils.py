@@ -142,6 +142,11 @@ def parse_submission(request):
     for x in data['Installed-Build-Depends'].strip().splitlines():
         m = re_installed_build_depends.match(x.strip())
 
+        if m is None:
+            raise InvalidSubmission(
+                "Invalid entry in Installed-Build-Depends: {}".format(x),
+            )
+
         binary = Binary.objects.get_or_create(name=m.group('package'))[0]
 
         buildinfo.installed_build_depends.get_or_create(
