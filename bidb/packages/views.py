@@ -50,7 +50,7 @@ def source_version(request, name, version):
             'architecture__name',
         ),
         lambda x: x.architecture.name,
-        lambda x: x.version,
+        lambda x: x.created,
     )
 
     return render(request, 'packages/source_version.html', {
