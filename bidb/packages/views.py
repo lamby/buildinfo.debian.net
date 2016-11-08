@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 
 from bidb.utils.itertools import groupby
@@ -37,11 +38,10 @@ def source(request, name):
     })
 
 def source_version(request, name, version):
-    source = get_object_or_404(
-        Source,
-        name=name,
-        buildinfos__version=version,
-    )
+    source = get_object_or_404(Source, name=name)
+
+    if not source.buildinfos.filter(version=version).exists():
+        raise Http404()
 
     buildinfos_by_arch = groupby(
         source.buildinfos.order_by('architecture__name'),
