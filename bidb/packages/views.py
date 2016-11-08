@@ -44,7 +44,9 @@ def source_version(request, name, version):
         raise Http404()
 
     buildinfos_by_arch = groupby(
-        source.buildinfos.order_by('architecture__name'),
+        source.buildinfos.order_by(
+            'architecture__name',
+        ),
         lambda x: x.architecture.name,
         lambda x: x.version,
     )
