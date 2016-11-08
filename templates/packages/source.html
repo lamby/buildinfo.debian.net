@@ -28,7 +28,7 @@
 <ul class="list-horizontal">
   {% for x in versions %}
   <li>
-    <code>{{ x }}</code>
+    <code><a href="{% url "packages:source-version" source.name x %}">{{ x }}</a></code>
   </li>
   {% endfor %}
 </ul>

@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 
+from bidb.utils.itertools import groupby
 from bidb.utils.paginator import AutoPaginator
 
 from .models import Binary, Source
@@ -19,7 +20,6 @@ def binaries(request):
         'page': page,
     })
 
-
 def source(request, name):
     source = get_object_or_404(Source, name=name)
 
@@ -34,6 +34,25 @@ def source(request, name):
         'source': source,
         'binaries': binaries,
         'versions': versions,
+    })
+
+def source_version(request, name, version):
+    source = get_object_or_404(
+        Source,
+        name=name,
+        buildinfos__version=version,
+    )
+
+    buildinfos_by_arch = groupby(
+        source.buildinfos.order_by('architecture__name'),
+        lambda x: x.architecture.name,
+        lambda x: x.version,
+    )
+
+    return render(request, 'packages/source_version.html', {
+        'source': source,
+        'version': version,
+        'buildinfos_by_arch': buildinfos_by_arch,
     })
 
 def binary(request, name):
