@@ -12,7 +12,7 @@ def submit(request):
     try:
         submission, created = parse_submission(request)
     except InvalidSubmission as exc:
-        return HttpResponseBadRequest("{}\n".format(exc))
+        return HttpResponseBadRequest("Rejecting submission: {}\n".format(exc))
 
     return HttpResponse('{}{}\n'.format(
         settings.SITE_URL,
