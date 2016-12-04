@@ -18,11 +18,14 @@ class Buildinfo(models.Model):
     version = models.CharField(max_length=200)
 
     build_path = models.CharField(max_length=512)
-
+    build_date = models.DateTimeField(null=True)
+    build_origin = models.ForeignKey('Origin', null=True)
     build_architecture = models.ForeignKey(
         'packages.Architecture',
         related_name='buildinfos_build',
     )
+
+    environment = models.TextField()
 
     raw_text = models.TextField()
 
@@ -105,6 +108,21 @@ class Checksum(models.Model):
         return u"pk=%d filename=%r" % (
             self.pk,
             self.filename,
+        )
+
+class Origin(models.Model):
+    name = models.CharField(max_length=255)
+
+    created = models.DateTimeField(default=datetime.datetime.utcnow)
+
+    class Meta:
+        ordering = ('name',)
+        get_latest_by = 'created'
+
+    def __unicode__(self):
+        return u"pk=%d name=%r" % (
+            self.pk,
+            self.name,
         )
 
 class InstalledBuildDepends(models.Model):

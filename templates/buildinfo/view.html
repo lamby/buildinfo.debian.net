@@ -33,6 +33,27 @@
 
       <br>
 
+      <dt>Build-Origin</dt>
+      <dd>
+        {% if buildinfo.build_origin %}
+        <code>{{ buildinfo.build_origin.name }}</code>
+        {% else %}
+          &mdash;
+        {% endif %}
+      </dd>
+
+      <dt>Build-Architecture</dt>
+      <dd><code>{{ buildinfo.build_architecture.name }}</code></dd>
+
+      <dt>Build-Date</dt>
+      <dd>
+        {% if buildinfo.build_date %}
+        <code>{{ buildinfo.build_date }}</code>
+        {% else %}
+          &mdash;
+        {% endif %}
+      </dd>
+
       <dt>Build-Path</dt>
       <dd>
         {% if buildinfo.build_path %}
@@ -41,9 +62,6 @@
           &mdash;
         {% endif %}
       </dd>
-
-      <dt>Build-Architecture</dt>
-      <dd><code>{{ buildinfo.build_architecture.name }}</code></dd>
 
       <br>
 
@@ -144,5 +162,7 @@
   {% endfor %}
 </ul>
 
+<h3>Environment</h3>
+<code>{{ buildinfo.environment|linebreaksbr }}</code>
 
 {% endblock%}

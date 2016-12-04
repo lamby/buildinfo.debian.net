@@ -2,12 +2,13 @@ import re
 import hashlib
 
 from debian import deb822
+from dateutil.parser import parse
 
 from django.db import transaction, IntegrityError
 
 from bidb.keys.models import Key
 from bidb.packages.models import Source, Architecture, Binary
-from bidb.buildinfo.models import Buildinfo
+from bidb.buildinfo.models import Buildinfo, Origin
 
 re_binary = re.compile(
     r'^(?P<name>[^_]+)_(?P<version>[^_]+)_(?P<architecture>[^\.]+)\.u?deb$',
@@ -66,8 +67,8 @@ def parse_submission(request):
         except KeyError:
             raise InvalidSubmission("Missing required field: {}".format(field))
 
-    if data.get('Format') != '0.1':
-        raise InvalidSubmission("Only Format: 0.1 is supported")
+    if data.get('Format') != '0.2':
+        raise InvalidSubmission("Only Format: 0.2 is supported")
 
     buildinfo = Buildinfo.objects.create(
         sha1=sha1,
@@ -78,7 +79,11 @@ def parse_submission(request):
         version=data['Version'],
 
         build_path=data.get('Build-Path', ''),
+        build_date=parse(data.get('Build-Date', '')),
+        build_origin=get_or_create(Origin, 'Build-Origin'),
         build_architecture=get_or_create(Architecture, 'Build-Architecture'),
+
+        environment=data.get('Environment', ''),
     )
 
     ## Parse binaries #########################################################
