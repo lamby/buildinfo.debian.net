@@ -142,7 +142,8 @@ class InstalledBuildDepends(models.Model):
         ordering = ('binary__name',)
         get_latest_by = 'created'
         unique_together = (
-            ('buildinfo', 'binary'),
+            # We should really have a ('buildinfo', 'binary') here, but it
+            # uses a rather lot of disk space.
         )
 
     def __unicode__(self):

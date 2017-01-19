@@ -154,13 +154,15 @@ def parse_submission(request):
 
         binary = Binary.objects.get_or_create(name=m.group('package'))[0]
 
-        try:
-            buildinfo.installed_build_depends.create(
-                binary=binary,
-                version=m.group('version'),
-            )
-        except IntegrityError:
+        if buildinfo.installed_build_depends.filter(
+            binary=binary,
+        ).exists():
             raise InvalidSubmission("Duplicate entry in "
                 "Installed-Build-Depends: {}".format(binary.name))
+
+        buildinfo.installed_build_depends.create(
+            binary=binary,
+            version=m.group('version'),
+        )
 
     return create_submission(buildinfo), True
