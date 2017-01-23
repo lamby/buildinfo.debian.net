@@ -89,6 +89,9 @@
         {% if x.checksum %}
         <div class="panel-body">
           SHA1: <code>{{ x.checksum.checksum_sha1 }}</code>
+          <div class="visible-lg">
+            SHA256: <code>{{ x.checksum.checksum_sha256 }}</code><br>
+          </div>
           <br>
           Size: {{ x.checksum.size|intcomma }} bytes
         </div>
