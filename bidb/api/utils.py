@@ -5,6 +5,8 @@ from debian import deb822
 from dateutil.parser import parse
 
 from django.db import transaction, IntegrityError
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 
 from bidb.keys.models import Key
 from bidb.packages.models import Source, Architecture, Binary
@@ -47,10 +49,16 @@ def parse_submission(request):
     ## Check whether .buildinfo already exists ################################
 
     def create_submission(buildinfo):
-        return buildinfo.submissions.create(
+        submission = buildinfo.submissions.create(
             key=Key.objects.get_or_create(uid=uid)[0],
-            raw_text=raw_text,
         )
+
+        default_storage.save(
+            submission.get_storage_name(),
+            ContentFile(raw_text),
+        )
+
+        return submission
 
     sha1 = hashlib.sha1(raw_text_gpg_stripped.encode('utf-8')).hexdigest()
     try:
@@ -72,7 +80,6 @@ def parse_submission(request):
 
     buildinfo = Buildinfo.objects.create(
         sha1=sha1,
-        raw_text=raw_text_gpg_stripped,
 
         source=get_or_create(Source, 'Source'),
         architecture=get_or_create(Architecture, 'Architecture'),
@@ -84,6 +91,11 @@ def parse_submission(request):
         build_architecture=get_or_create(Architecture, 'Build-Architecture'),
 
         environment=data.get('Environment', ''),
+    )
+
+    default_storage.save(
+        buildinfo.get_storage_name(),
+        ContentFile(raw_text_gpg_stripped),
     )
 
     ## Parse binaries #########################################################
