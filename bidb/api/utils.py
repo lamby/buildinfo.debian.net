@@ -4,7 +4,7 @@ import hashlib
 from debian import deb822
 from dateutil.parser import parse
 
-from django.db import transaction, IntegrityError
+from django.db import transaction
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 
