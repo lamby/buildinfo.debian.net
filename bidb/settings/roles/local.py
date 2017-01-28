@@ -7,7 +7,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.pa
 DEBUG = True
 
 SITE_URL = 'http://127.0.0.1:8000'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'storage')
 
 DATABASES = {
     'default': {
@@ -31,3 +30,7 @@ CACHES = {
 BROKER_URL = 'memory://'
 CELERY_ALWAYS_EAGER = True
 CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+
+MEDIA_URL = '/storage/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'storage')
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'

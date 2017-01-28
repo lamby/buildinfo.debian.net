@@ -93,7 +93,15 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesSto
 
 MEDIA_URL = '/storage/'
 MEDIA_ROOT = 'overriden-in-production'
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+
+AWS_DEFAULT_ACL = 'public-read'
+AWS_ACCESS_KEY_ID = 'overriden-in-production'
+AWS_QUERYSTRING_AUTH = False
+AWS_SECRET_ACCESS_KEY = 'overriden-in-production'
+AWS_QUERYSTRING_EXPIRE = 86400 * 7 * 12
+AWS_STORAGE_BUCKET_NAME = 'overriden-in-production'
 
 BROKER_URL = 'redis://localhost:6379/0'
 
