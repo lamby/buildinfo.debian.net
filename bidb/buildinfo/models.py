@@ -27,6 +27,7 @@ class Buildinfo(models.Model):
 
     environment = models.TextField()
 
+    # Deprecated
     raw_text = models.TextField()
 
     created = models.DateTimeField(default=datetime.datetime.utcnow)
@@ -50,6 +51,13 @@ class Buildinfo(models.Model):
             self.source.name,
             self.version,
             self.architecture.name,
+        )
+
+    def get_storage_name(self):
+        return 'buildinfo.Buildinfo/{}/{}/{}'.format(
+            self.sha1[:2],
+            self.sha1[2:4],
+            self.sha1,
         )
 
 class Binary(models.Model):

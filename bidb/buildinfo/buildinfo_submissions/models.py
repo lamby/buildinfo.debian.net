@@ -21,6 +21,7 @@ class Submission(models.Model):
 
     key = models.ForeignKey('keys.Key', related_name='submissions')
 
+    # Deprecated
     raw_text = models.TextField()
 
     created = models.DateTimeField(default=datetime.datetime.utcnow)
@@ -40,5 +41,12 @@ class Submission(models.Model):
         return 'buildinfo:submissions:view', (
             self.buildinfo.sha1,
             self.buildinfo.get_filename(),
+            self.slug,
+        )
+
+    def get_storage_name(self):
+        return 'buildinfo_submissions.Submission/{}/{}/{}'.format(
+            self.slug[:2],
+            self.slug[2:4],
             self.slug,
         )
