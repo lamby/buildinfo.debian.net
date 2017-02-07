@@ -21,9 +21,6 @@ class Submission(models.Model):
 
     key = models.ForeignKey('keys.Key', related_name='submissions')
 
-    # Deprecated
-    raw_text = models.TextField()
-
     created = models.DateTimeField(default=datetime.datetime.utcnow)
 
     class Meta:

@@ -15,9 +15,5 @@ def view(request, sha1, filename, slug):
     if submission.buildinfo.get_filename() != filename:
         return redirect(submission)
 
-    # Legacy
-    if submission.raw_text:
-        return HttpResponse(submission.raw_text, content_type='text/plain')
-
     with default_storage.open(submission.get_storage_name()) as f:
         return HttpResponse(f, content_type='text/plain')

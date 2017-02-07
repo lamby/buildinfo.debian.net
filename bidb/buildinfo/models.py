@@ -27,9 +27,6 @@ class Buildinfo(models.Model):
 
     environment = models.TextField()
 
-    # Deprecated
-    raw_text = models.TextField()
-
     created = models.DateTimeField(default=datetime.datetime.utcnow)
 
     class Meta:

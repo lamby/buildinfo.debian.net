@@ -23,9 +23,5 @@ def view(request, sha1, filename=None):
 def raw_text(request, sha1, filename=None):
     buildinfo = get_object_or_404(Buildinfo, sha1=sha1)
 
-    # Legacy
-    if buildinfo.raw_text:
-        return HttpResponse(buildinfo.raw_text, content_type='text/plain')
-
     with default_storage.open(buildinfo.get_storage_name()) as f:
         return HttpResponse(f, content_type='text/plain')
