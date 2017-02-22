@@ -1,5 +1,7 @@
 #!/usr/bin/make -f
 
+export DH_VIRTUALENV_INSTALL_ROOT = /usr/share/python
+
 %:
 	dh $@ --with=python-virtualenv,systemd
 

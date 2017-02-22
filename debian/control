@@ -5,7 +5,7 @@ Maintainer: Chris Lamb <lamby@debian.org>
 Build-Depends:
  debhelper (>= 9),
  dh-systemd (>= 1.5),
- dh-virtualenv (>= 0.10),
+ dh-virtualenv (>= 1.0),
  libffi-dev,
  libpq-dev,
  libpython-dev,
