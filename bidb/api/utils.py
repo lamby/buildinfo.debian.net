@@ -154,7 +154,7 @@ def parse_submission(request):
 
         buildinfo.checksums.create(filename=k, **v)
 
-    ## Create InstalledBuildDepends instances #################################
+    ## Validate Installed-Build-Depends #######################################
 
     for x in data['Installed-Build-Depends'].strip().splitlines():
         m = re_installed_build_depends.match(x.strip())
@@ -163,18 +163,5 @@ def parse_submission(request):
             raise InvalidSubmission(
                 "Invalid entry in Installed-Build-Depends: {}".format(x),
             )
-
-        binary = Binary.objects.get_or_create(name=m.group('package'))[0]
-
-        if buildinfo.installed_build_depends.filter(
-            binary=binary,
-        ).exists():
-            raise InvalidSubmission("Duplicate entry in "
-                "Installed-Build-Depends: {}".format(binary.name))
-
-        buildinfo.installed_build_depends.create(
-            binary=binary,
-            version=m.group('version'),
-        )
 
     return create_submission(buildinfo), True

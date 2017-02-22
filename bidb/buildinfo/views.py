@@ -11,13 +11,8 @@ def view(request, sha1, filename=None):
     if filename != buildinfo.get_filename():
         return redirect(buildinfo)
 
-    installed_build_depends = buildinfo.installed_build_depends.select_related(
-        'binary',
-    )
-
     return render(request, 'buildinfo/view.html', {
         'buildinfo': buildinfo,
-        'installed_build_depends': installed_build_depends,
     })
 
 def raw_text(request, sha1, filename=None):

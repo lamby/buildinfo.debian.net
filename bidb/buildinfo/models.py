@@ -129,32 +129,3 @@ class Origin(models.Model):
             self.pk,
             self.name,
         )
-
-class InstalledBuildDepends(models.Model):
-    buildinfo = models.ForeignKey(
-        Buildinfo,
-        related_name='installed_build_depends',
-    )
-
-    binary = models.ForeignKey(
-        'packages.Binary',
-        related_name='build_depends',
-    )
-
-    version = models.CharField(max_length=200)
-
-    class Meta:
-        ordering = ('binary__name',)
-        get_latest_by = 'created'
-        unique_together = (
-            # We should really have a ('buildinfo', 'binary') here, but it
-            # uses a rather lot of disk space.
-        )
-
-    def __unicode__(self):
-        return u"pk=%d buildinfo=%r binary=%r version=%r" % (
-            self.pk,
-            self.buildinfo,
-            self.binary,
-            self.version,
-        )

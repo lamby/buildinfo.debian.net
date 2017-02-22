@@ -152,19 +152,6 @@
   </div>
 </div>
 
-<h3>Installed build-depends</h3>
-
-<ul class="list-unstyled">
-  {% for x in installed_build_depends %}
-  <li>
-    <a href="{{ x.binary.get_absolute_url }}">
-      <span class="label label-default">{{ x.binary.name }}</span>
-    </a>
-    (= <code>{{ x.version }}</code></dd>)
-  </li>
-  {% endfor %}
-</ul>
-
 <h3>Environment</h3>
 <code>{{ buildinfo.environment|linebreaksbr }}</code>
 
