@@ -18,11 +18,28 @@
 <ul>
   {% for architecture,buildinfos in buildinfos_by_arch %}
   <li>
-    {{ architecture }}:
+    <code>{{ architecture }}</code>
+
+    {% if reproducible_by_arch|getitem:architecture %}
+      <span class="label label-success">Reproducible</span>
+    {% else %}
+      <span class="label label-danger">Unreproducible</span>
+    {% endif %}
+
     <ul>
       {% for buildinfo in buildinfos %}
       <li>
         <a href="{{ buildinfo.get_absolute_url }}"><code>{{ buildinfo.get_filename }}.buildinfo</code></a>
+        <ul>
+          {% for submission in buildinfo.submissions.all %}
+          <li>
+            <a href="https://keyserver.ubuntu.com/pks/lookup?op=index&search=0x{{ submission.key.uid|urlencode }}"><code>0x{{ submission.key.uid }}</code></a>
+            {% if submission.key.name %}
+              <em>{{ submission.key.name }}</em>
+            {% endif %}
+          </li>
+          {% endfor %}
+        </ul>
       </li>
       {% endfor %}
     </ul>

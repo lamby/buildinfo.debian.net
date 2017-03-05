@@ -43,20 +43,41 @@ def source_version(request, name, version):
     if not source.buildinfos.filter(version=version).exists():
         raise Http404()
 
+    qs = source.buildinfos.filter(
+        version=version,
+    ).order_by(
+        'architecture__name',
+    ).prefetch_related(
+        'submissions__key',
+    )
+
     buildinfos_by_arch = groupby(
-        source.buildinfos.filter(
-            version=version,
-        ).order_by(
-            'architecture__name',
-        ),
+        qs,
         lambda x: x.architecture.name,
         lambda x: x.created,
     )
+
+    reproducible_by_arch = {}
+    for x, ys in buildinfos_by_arch:
+        checksums = {
+            z.filename: z.checksum_sha256
+            for y in ys
+            for z in y.checksums.all()
+        }
+
+        reproducible = True
+        for y in ys:
+            for z in y.checksums.all():
+                if checksums[z.filename] != z.checksum_sha256:
+                    reproducible = False
+
+        reproducible_by_arch[x] = reproducible
 
     return render(request, 'packages/source_version.html', {
         'source': source,
         'version': version,
         'buildinfos_by_arch': buildinfos_by_arch,
+        'reproducible_by_arch': reproducible_by_arch,
     })
 
 def binary(request, name):
