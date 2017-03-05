@@ -71,6 +71,7 @@ TEMPLATES = [
                 'django.contrib.staticfiles.templatetags.staticfiles',
 
                 'bidb.utils.templatetags.pagination',
+                'bidb.utils.templatetags.python',
             ],
         },
     },
