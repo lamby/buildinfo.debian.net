@@ -34,9 +34,10 @@ class Buildinfo(models.Model):
         get_latest_by = 'created'
 
     def __unicode__(self):
-        return u"pk=%d source=%r" % (
+        return u"pk=%d source=%r version=%r" % (
             self.pk,
             self.source,
+            self.version,
         )
 
     @models.permalink
