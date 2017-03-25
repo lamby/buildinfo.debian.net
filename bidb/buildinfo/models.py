@@ -48,7 +48,7 @@ class Buildinfo(models.Model):
         return '{}_{}_{}'.format(
             self.source.name,
             self.version,
-            self.architecture.name,
+            self.architecture.name.split(' ')[0],
         )
 
     def get_storage_name(self):
