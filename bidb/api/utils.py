@@ -12,7 +12,7 @@ from bidb.keys.models import Key
 from bidb.packages.models import Source, Architecture, Binary
 from bidb.buildinfo.models import Buildinfo, Origin
 
-SUPPORTED_FORMATS = {'0.2'}
+SUPPORTED_FORMATS = {'0.2', '1.0'}
 
 re_binary = re.compile(
     r'^(?P<name>[^_]+)_(?P<version>[^_]+)_(?P<architecture>[^\.]+)\.u?deb$',
