@@ -12,6 +12,8 @@ from bidb.keys.models import Key
 from bidb.packages.models import Source, Architecture, Binary
 from bidb.buildinfo.models import Buildinfo, Origin
 
+SUPPORTED_FORMATS = {'0.2'}
+
 re_binary = re.compile(
     r'^(?P<name>[^_]+)_(?P<version>[^_]+)_(?P<architecture>[^\.]+)\.u?deb$',
 )
@@ -75,8 +77,10 @@ def parse_submission(request):
         except KeyError:
             raise InvalidSubmission("Missing required field: {}".format(field))
 
-    if data.get('Format') != '0.2':
-        raise InvalidSubmission("Only Format: 0.2 is supported")
+    if data.get('Format') not in SUPPORTED_FORMATS:
+        raise InvalidSubmission("Only {} format versins are supported".format(
+            ', '.join(sorted(SUPPORTED_FORMATS)),
+        ))
 
     buildinfo = Buildinfo.objects.create(
         sha1=sha1,
