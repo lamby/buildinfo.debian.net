@@ -77,8 +77,13 @@ def parse_submission(request):
         except KeyError:
             raise InvalidSubmission("Missing required field: {}".format(field))
 
-    if data.get('Format') not in SUPPORTED_FORMATS:
-        raise InvalidSubmission("Only {} format versins are supported".format(
+    try:
+        version = data.get('Format')
+    except KeyError:
+        raise InvalidSubmission("Missing 'Format' header")
+
+    if version not in SUPPORTED_FORMATS:
+        raise InvalidSubmission("Only {} format versions are supported".format(
             ', '.join(sorted(SUPPORTED_FORMATS)),
         ))
 
@@ -87,7 +92,7 @@ def parse_submission(request):
 
         source=get_or_create(Source, 'Source'),
         architecture=get_or_create(Architecture, 'Architecture'),
-        version=data['Version'],
+        version=version,
 
         build_path=data.get('Build-Path', ''),
         build_date=parse(data.get('Build-Date', '')),
