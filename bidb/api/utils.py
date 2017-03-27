@@ -77,15 +77,12 @@ def parse_submission(request):
         except KeyError:
             raise InvalidSubmission("Missing required field: {}".format(field))
 
-    try:
-        version = data.get('Format')
-    except KeyError:
-        raise InvalidSubmission("Missing 'Format' header")
-
-    if version not in SUPPORTED_FORMATS:
-        raise InvalidSubmission("Only {} format versions are supported".format(
-            ', '.join(sorted(SUPPORTED_FORMATS)),
-        ))
+    if data.get('Format') not in SUPPORTED_FORMATS:
+        raise InvalidSubmission(
+            "Only {} 'Format:'  versions are supported".format(
+                ', '.join(sorted(SUPPORTED_FORMATS)),
+            )
+        )
 
     buildinfo = Buildinfo.objects.create(
         sha1=sha1,
