@@ -92,7 +92,7 @@ def parse_submission(request):
 
         source=get_or_create(Source, 'Source'),
         architecture=get_or_create(Architecture, 'Architecture'),
-        version=version,
+        version=data['version'],
 
         build_path=data.get('Build-Path', ''),
         build_date=parse(data.get('Build-Date', '')),
