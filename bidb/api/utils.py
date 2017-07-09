@@ -4,7 +4,7 @@ import hashlib
 from debian import deb822
 from dateutil.parser import parse
 
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 
@@ -62,13 +62,6 @@ def parse_submission(request):
 
         return submission
 
-    sha1 = hashlib.sha1(raw_text_gpg_stripped.encode('utf-8')).hexdigest()
-    try:
-        # Already exists; just attach a new Submission instance
-        return create_submission(Buildinfo.objects.get(sha1=sha1)), False
-    except Buildinfo.DoesNotExist:
-        pass
-
     ## Parse new .buildinfo ###################################################
 
     def get_or_create(model, field):
@@ -84,20 +77,27 @@ def parse_submission(request):
             )
         )
 
-    buildinfo = Buildinfo.objects.create(
-        sha1=sha1,
+    sha1 = hashlib.sha1(raw_text_gpg_stripped.encode('utf-8')).hexdigest()
 
-        source=get_or_create(Source, 'Source'),
-        architecture=get_or_create(Architecture, 'Architecture'),
-        version=data['version'],
+    try:
+        with transaction.atomic():
+            buildinfo = Buildinfo.objects.create(
+                sha1=sha1,
 
-        build_path=data.get('Build-Path', ''),
-        build_date=parse(data.get('Build-Date', '')),
-        build_origin=get_or_create(Origin, 'Build-Origin'),
-        build_architecture=get_or_create(Architecture, 'Build-Architecture'),
+                source=get_or_create(Source, 'Source'),
+                architecture=get_or_create(Architecture, 'Architecture'),
+                version=data['version'],
 
-        environment=data.get('Environment', ''),
-    )
+                build_path=data.get('Build-Path', ''),
+                build_date=parse(data.get('Build-Date', '')),
+                build_origin=get_or_create(Origin, 'Build-Origin'),
+                build_architecture=get_or_create(Architecture, 'Build-Architecture'),
+
+                environment=data.get('Environment', ''),
+            )
+    except IntegrityError:
+        # Already exists; just attach a new Submission instance
+        return create_submission(Buildinfo.objects.get(sha1=sha1)), False
 
     default_storage.save(
         buildinfo.get_storage_name(),
