@@ -55,7 +55,7 @@
         {% for x in latest %}
         <li>
           <a href="{{ x.buildinfo.get_absolute_url }}">{{ x.buildinfo.get_filename }}.buildinfo</a>
-          from <a href="https://keyserver.ubuntu.com/pks/lookup?op=index&search=0x{{ x.key.uid|urlencode }}"><code>0x{{ x.key.uid }}</code></a>
+          from <a href="https://keyserver.ubuntu.com/pks/lookup?op=vindex&search=0x{{ x.key.uid|urlencode }}"><code>0x{{ x.key.uid }}</code></a>
           {% if x.key.name %}
             <em>{{ x.key.name }}</em>
           {% endif %}

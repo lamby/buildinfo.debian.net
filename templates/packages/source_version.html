@@ -33,7 +33,7 @@
         <ul>
           {% for submission in buildinfo.submissions.all %}
           <li>
-            <a href="https://keyserver.ubuntu.com/pks/lookup?op=index&search=0x{{ submission.key.uid|urlencode }}"><code>0x{{ submission.key.uid }}</code></a>
+            <a href="https://keyserver.ubuntu.com/pks/lookup?op=vindex&search=0x{{ submission.key.uid|urlencode }}"><code>0x{{ submission.key.uid }}</code></a>
             {% if submission.key.name %}
               <em>{{ submission.key.name }}</em>
             {% endif %}
