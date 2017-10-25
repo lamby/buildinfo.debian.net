@@ -1,8 +1,11 @@
-from django.http import Http404
+from django.conf import settings
+from django.http import Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404
 
 from bidb.utils.itertools import groupby
 from bidb.utils.paginator import AutoPaginator
+
+from bidb.buildinfo.buildinfo_submissions.models import Submission
 
 from .models import Binary, Source
 
@@ -91,3 +94,45 @@ def binary(request, name):
         'binary': binary,
         'versions': versions,
     })
+
+
+def api_source_version_architecture(request, name, version, architecture):
+    source = get_object_or_404(Source, name=name)
+
+    if not source.buildinfos.filter(version=version).exists():
+        raise Http404()
+
+    qs = Submission.objects.filter(
+        buildinfo__version=version,
+        buildinfo__architecture__name=architecture,
+    ).select_related(
+        'key',
+        'buildinfo',
+    ).order_by(
+        'buildinfo__sha1',
+        'created',
+    )
+
+    by_sha1 = [
+        {
+            'uri': '{}{}'.format(
+                settings.SITE_URL,
+                xs[0].get_absolute_url(),
+            ),
+            'sha1': sha1,
+            'submissions': [{
+                'key': {
+                    'uid': x.key.uid,
+                    'name': x.key.name,
+                },
+                'created': x.created,
+            } for x in xs],
+        }
+        for sha1, xs in groupby(
+            qs,
+            lambda x: x.buildinfo.sha1,
+            lambda x: x.created,
+        )
+    ]
+
+    return JsonResponse({'by_sha1': by_sha1})

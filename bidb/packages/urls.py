@@ -15,4 +15,8 @@ urlpatterns = (
         name='source-version'),
     url(r'^binaries/(?P<name>[^/]+)$', views.binary,
         name='binary'),
+
+    url(r'^api/v1/sources/(?P<name>[^/]+)/(?P<version>[^/]+)/(?P<architecture>[^/]+)$',
+        views.api_source_version_architecture,
+        name='api-source-version-architecture'),
 )
