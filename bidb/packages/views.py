@@ -108,9 +108,23 @@ def api_source_version_architecture(request, name, version, architecture):
     ).select_related(
         'key',
         'buildinfo',
-    ).order_by(
+        'buildinfo__architecture',
+        'buildinfo__source',
+    ).only(
+        'slug',
         'buildinfo__sha1',
+        'buildinfo__version',
+        'buildinfo__source__name',
+        'buildinfo__architecture__name',
+        'key__name',
+        'key__uid',
         'created',
+    ).order_by()
+
+    grouped = groupby(
+        sorted(qs, key=lambda x: (x.buildinfo.sha1, x.created)),
+        lambda x: x.buildinfo.sha1,
+        lambda x: x.created,
     )
 
     by_sha1 = [
@@ -128,11 +142,7 @@ def api_source_version_architecture(request, name, version, architecture):
                 'created': x.created,
             } for x in xs],
         }
-        for sha1, xs in groupby(
-            qs,
-            lambda x: x.buildinfo.sha1,
-            lambda x: x.created,
-        )
+        for sha1, xs in grouped
     ]
 
     return JsonResponse({'by_sha1': by_sha1})
