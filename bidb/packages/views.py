@@ -104,6 +104,7 @@ def api_source_version_architecture(request, name, version, architecture):
 
     qs = Submission.objects.filter(
         buildinfo__version=version,
+        buildinfo__source_id=source,
         buildinfo__architecture__name=architecture,
     ).select_related(
         'key',
