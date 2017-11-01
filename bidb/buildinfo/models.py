@@ -44,6 +44,10 @@ class Buildinfo(models.Model):
     def get_absolute_url(self):
         return 'buildinfo:view', (self.sha1, self.get_filename())
 
+    @models.permalink
+    def get_absolute_raw_url(self):
+        return 'buildinfo:raw-text', (self.sha1, self.get_filename())
+
     def get_filename(self):
         return '{}_{}_{}'.format(
             self.source.name,

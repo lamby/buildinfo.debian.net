@@ -13,4 +13,7 @@ urlpatterns = (
         name='raw-text'),
     url(r'^(?P<sha1>\w{40})/(?P<filename>.+)$', views.view,
         name='view'),
+
+    url(r'^api/v1/buildinfos/checksums/sha1/(?P<sha1>\w{40})$', views.checksums,
+        name='checksums'),
 )
