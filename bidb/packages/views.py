@@ -122,6 +122,9 @@ def api_source_version_architecture(request, name, version, architecture):
         'created',
     ).order_by()
 
+    if 'key__uid' in request.GET:
+        qs = qs.filter(key__uid__in=request.GET.getlist('key__uid'))
+
     grouped = groupby(
         sorted(qs, key=lambda x: (x.buildinfo.sha1, x.created)),
         lambda x: x.buildinfo.sha1,
