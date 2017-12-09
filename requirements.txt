@@ -4,7 +4,7 @@ django-celery==3.1.17
 https://github.com/lamby/django-setuptest/zipball/django-1.9-support#egg=django-setuptest
 django-template-tests==1.0.0
 gunicorn==19.3.0
-psycopg2==2.6.1
+psycopg2==2.7.3.2
 python-memcached==1.57
 redis==2.10.5
 sqlparse==0.1.18
