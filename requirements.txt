@@ -1,4 +1,4 @@
-celery==3.1.19
+celery==4.1.0
 Django==1.9.11
 django-celery==3.1.17
 https://github.com/lamby/django-setuptest/zipball/django-1.9-support#egg=django-setuptest
