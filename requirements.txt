@@ -11,6 +11,6 @@ sqlparse==0.1.18
 python-debian==0.1.28
 chardet==2.3.0
 django-keyerror==2.1.4
-python-dateutil==2.6.0
+python-dateutil==2.6.1
 django-storages==1.5.2
 boto==2.45.0
