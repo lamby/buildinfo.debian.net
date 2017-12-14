@@ -29,6 +29,9 @@ class InvalidSubmission(Exception):
 def parse_submission(request):
     raw_text = request.read()
 
+    if not raw_text:
+        raise InvalidSubmission("No response body was found.")
+
     data = deb822.Deb822(raw_text)
     raw_text_gpg_stripped = data.dump()
 
