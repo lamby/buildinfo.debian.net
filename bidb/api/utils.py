@@ -29,10 +29,11 @@ class InvalidSubmission(Exception):
 def parse_submission(request):
     raw_text = request.read()
 
-    if not raw_text:
-        raise InvalidSubmission("No response body was found.")
+    try:
+        data = deb822.Deb822(raw_text)
+    except TypeError:
+        raise InvalidSubmission("Could not parse RFC-822 format data.")
 
-    data = deb822.Deb822(raw_text)
     raw_text_gpg_stripped = data.dump()
 
     ## Parse GPG info #########################################################
