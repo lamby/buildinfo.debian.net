@@ -1,0 +1,25 @@
+[
+    {
+        "model": "packages.source",
+        "pk": 1,
+        "fields": {
+            "name": "Testy"
+        }
+    },
+    {
+        "model": "packages.architecture",
+        "pk": 1,
+        "fields": {
+            "name": "Testy Architecture"
+        }
+    },
+    {
+        "model": "buildinfo.buildinfo",
+        "pk": 1,
+        "fields": {
+            "architecture": 1,
+            "build_architecture": 1,
+            "source": 1
+        }
+    }
+]

@@ -5,4 +5,6 @@ from . import views
 urlpatterns = (
     url(r'^api/submit$', views.submit,
         name='submit'),
+    url(r'^api/buildinfo/since/(?P<date>[^/]+)$', views.buildinfo_since,
+        name='buildinfo_since'),
 )
