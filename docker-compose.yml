@@ -13,7 +13,6 @@ services:
     - DB_HOST=db
     - DB_USER=postgres
     - DB_PASSWORD=postgres
-    command: python bidb/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:

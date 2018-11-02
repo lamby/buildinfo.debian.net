@@ -6,3 +6,4 @@ ADD requirements.txt /code/
 RUN pip install -r requirements.txt
 ADD . /code/
 RUN ./setup.py install
+CMD ["./docker-entry.sh"]
