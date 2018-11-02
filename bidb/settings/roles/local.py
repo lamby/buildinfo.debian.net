@@ -7,7 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.pa
 
 DEBUG = True
 
-SITE_URL = 'http://127.0.0.1:8000'
+SITE_URL = environ.get('SITE_URL', 'http://127.0.0.1:8000')
 
 DATABASES = {
     'default': {
