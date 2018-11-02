@@ -1,4 +1,5 @@
 import datetime
+import time
 
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
@@ -26,13 +27,13 @@ def submit(request):
 
 @require_http_methods(['GET'])
 def buildinfo_since(request, date):
-    time = datetime.datetime.fromtimestamp(int(date))
+    created = datetime.datetime.fromtimestamp(int(date) + 1)
     buildinfo = Buildinfo.objects.filter(
-            created__gt=time
+            created__gte=created
     ).select_related(
         'source',
         'architecture',
-    ).order_by()
+    ).order_by('created')
     return JsonResponse({'buildinfos': [{
         'uri': '{}{}'.format(
             settings.SITE_URL,
@@ -45,4 +46,5 @@ def buildinfo_since(request, date):
         'source': x.source.name,
         'version': x.version,
         'architecture': x.architecture.name,
+        'created':  time.mktime(x.created.timetuple()),
     } for x in buildinfo]})
