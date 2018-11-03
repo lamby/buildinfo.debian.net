@@ -28,21 +28,24 @@ def submit(request):
 
 @require_http_methods(['GET'])
 def buildinfo_since(request, date):
-    created = datetime.datetime.fromtimestamp(int(date) + 1)
+    try:
+        created = datetime.datetime.fromtimestamp(int(date) + 1)
+    except ValueError:
+        raise HttpResponseBadRequest("Date value should be an integer")
     try:
         limit = int(request.GET.get('limit', 100))
         if limit <= 0:
-            raise SuspiciousOperation("Limit value should be positive")
+            raise HttpResponseBadRequest("Limit value should be positive")
     except ValueError:
-        raise SuspiciousOperation("Limit value should be an integer")
-
+        raise HttpResponseBadRequest("Limit value should be an integer")
 
     buildinfo = Buildinfo.objects.filter(
-            created__gte=created
+            created__gte=created,
     ).select_related(
         'source',
         'architecture',
     ).order_by('created')[:limit]
+
     return JsonResponse({'buildinfos': [{
         'uri': '{}{}'.format(
             settings.SITE_URL,
@@ -55,5 +58,5 @@ def buildinfo_since(request, date):
         'source': x.source.name,
         'version': x.version,
         'architecture': x.architecture.name,
-        'created':  time.mktime(x.created.timetuple())
+        'created':  time.mktime(x.created.timetuple()),
     } for x in buildinfo]})
