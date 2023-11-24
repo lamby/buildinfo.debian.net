@@ -46,25 +46,6 @@
     rely on anything just yet.
   </div>
 
-
-  <div class="row">
-    <div class="col-xs-12">
-      <h4>Latest submissions ({{ num_submissions|intcomma }} total):</h4>
-
-      <ul>
-        {% for x in latest %}
-        <li>
-          <a href="{{ x.buildinfo.get_absolute_url }}">{{ x.buildinfo.get_filename }}.buildinfo</a>
-          from <a href="https://keyserver.ubuntu.com/pks/lookup?op=vindex&search=0x{{ x.key.uid|urlencode }}"><code>0x{{ x.key.uid }}</code></a>
-          {% if x.key.name %}
-            <em>{{ x.key.name }}</em>
-          {% endif %}
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-
   <hr>
 
   <div class="row">
