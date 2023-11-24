@@ -13,3 +13,9 @@
 * Run any initial migrations:
 
     `$ ./manage.py migrate`
+
+---
+
+Hardware sponsored by:
+
+[![](https://buildinfo.debian.net/static/images/digitalocean.d93469b2ccfc.png)](https://m.do.co/c/494f892a988b)
