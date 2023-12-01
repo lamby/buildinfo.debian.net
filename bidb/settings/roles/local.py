@@ -1,4 +1,5 @@
 import os
+from os import environ
 
 from django.utils.log import DEFAULT_LOGGING as LOGGING
 
@@ -6,12 +7,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.pa
 
 DEBUG = True
 
-SITE_URL = 'http://127.0.0.1:8000'
+SITE_URL = environ.get('SITE_URL', 'http://127.0.0.1:8000')
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bidb',
+        'NAME': environ.get('DB_NAME', 'bidb'),
+        'USER': environ.get('DB_USER', 'bidb'),
+        'PASSWORD': environ.get('DB_PASSWORD', 'bidb'),
+        'HOST': environ.get('DB_HOST', '127.0.0.1'),
+        'PORT': environ.get('DB_PORT', '5432'),
         'ATOMIC_REQUESTS': True,
     },
 }

@@ -1,0 +1,23 @@
+---
+version: '3'
+services:
+  db:
+    image: postgres
+    ports:
+    - 127.0.0.1:5432:5432
+    environment:
+    - POSTGRES_DB=bidb
+  http:
+    build: .
+    environment:
+    - DB_HOST=db
+    - DB_USER=postgres
+    - DB_PASSWORD=postgres
+    - SITE_URL=http://127.0.0.1:8000
+    volumes:
+      - .:/code
+    ports:
+      - 127.0.0.1:8000:8000
+    depends_on:
+      - db
+...

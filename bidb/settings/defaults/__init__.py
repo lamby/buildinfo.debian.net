@@ -3,6 +3,7 @@ import copy
 import email
 import djcelery
 
+from os import environ
 from os.path import dirname, abspath
 from celery.schedules import crontab
 
@@ -27,11 +28,11 @@ SECRET_KEY = 'overriden-in-production'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bidb',
-        'USER': 'bidb',
-        'PASSWORD': 'bidb',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': environ.get('DB_NAME', 'bidb'),
+        'USER': environ.get('DB_USER', 'bidb'),
+        'PASSWORD': environ.get('DB_PASSWORD', 'bidb'),
+        'HOST': environ.get('DB_HOST', '127.0.0.1'),
+        'PORT': environ.get('DB_PORT', '5432'),
         'ATOMIC_REQUESTS': True,
     },
 }
